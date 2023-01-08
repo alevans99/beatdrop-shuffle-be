@@ -1,10 +1,10 @@
 const express = require('express')
-const mongoose = require('mongoose')
 require('dotenv').config();
-let Schema = mongoose.Schema;
-const apiRouter = require('express').Router()
+const scoresRouter = require('./routes/scores-router')
+const cors = require('cors')
+const ENV = process.env.NODE_ENV || 'development'
 
-const app = express()
+app = express()
 app.use(express.json())
 
 /**
@@ -20,8 +20,13 @@ const corsConfig =
 
 app.use(cors(corsConfig))
 
+app.use('/', scoresRouter)
 
-app.listen(3000, 'localhost', () => {
-    console.log('Server started at 3000')
+app.use('/scores', scoresRouter)
+
+app.all('/*', (req, res) => {
+    res.status(404).send({ message: 'Path not found' })
 })
 
+
+module.exports = app
