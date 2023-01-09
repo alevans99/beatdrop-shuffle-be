@@ -1,7 +1,8 @@
 const express = require('express')
 require('dotenv').config();
 const scoresRouter = require('./routes/scores-router')
-const cors = require('cors')
+const cors = require('cors');
+const { handleCustomErrors, handleServerErrors } = require('./controllers/errorsController');
 const ENV = process.env.NODE_ENV || 'development'
 
 app = express()
@@ -23,6 +24,9 @@ app.use(cors(corsConfig))
 app.use('/', scoresRouter)
 
 app.use('/scores', scoresRouter)
+
+app.use(handleCustomErrors)
+app.use(handleServerErrors)
 
 app.all('/*', (req, res) => {
     res.status(404).send({ message: 'Path not found' })
