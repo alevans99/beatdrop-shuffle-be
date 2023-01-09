@@ -1,25 +1,25 @@
 const router = require('express').Router()
-const { getScores } = require('../controllers/scores-controller')
+const { handleMethodNotAllowed } = require('../controllers/errorsController')
+const { getScores, postScore } = require('../controllers/scores-controller')
 
 router
     .route('/')
     .get(async (req, res, next) => {
         res.status(200).send({ "message": "Connected to the API" })
     })
-    .all(async (req, res, next) => {
-        res.status(405).send({
-            message: 'Method Not Allowed'
-        })
-    })
+    .all(handleMethodNotAllowed)
 
 router
     .route('/scores')
     .get(getScores)
-    .all(async (req, res, next) => {
-        res.status(405).send({
-            message: 'Method Not Allowed'
-        })
-    })
+    .all(handleMethodNotAllowed)
+
+
+router
+    .route('/scores/:level')
+    .post(postScore)
+    .all(handleMethodNotAllowed)
+
 
 
 

@@ -1,4 +1,4 @@
-const { findScores } = require("../models/scores-model")
+const { findScores, addNewScore } = require("../models/scores-model")
 
 /**
  * Gets the main score object and returns with a 200 status
@@ -9,7 +9,24 @@ exports.getScores = async (req, res, next) => {
         res.status(200).send({ scores })
 
     } catch (error) {
-        console.log(error)
+        next(error)
+    }
+
+}
+
+/**
+ * Gets the main score object and returns with a 200 status
+ */
+exports.postScore = async (req, res, next) => {
+    try {
+        const { newScore } = req.body
+        const { level } = req.params
+        const updatedScores = await addNewScore(newScore, level)
+        res.status(201).send({ updatedScores })
+
+
+    } catch (error) {
+        next(error)
     }
 
 }
