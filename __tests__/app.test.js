@@ -57,6 +57,40 @@ describe('App.js', () => {
 
 
                 });
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .patch(`/`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
+
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+
+                });
+
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .delete(`/`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
+
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+                });
             });
         });
 
@@ -89,7 +123,7 @@ describe('App.js', () => {
                 it('should return method not allowed', () => {
 
                     return request(app)
-                        .post(`/`)
+                        .post(`/scores`)
                         .expect(405)
                         .then(({
                             body: {
@@ -97,6 +131,180 @@ describe('App.js', () => {
                             }
                         }) => {
 
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+
+                });
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .patch(`/scores`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
+
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+
+                });
+
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .delete(`/scores`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
+
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+
+                });
+            });
+        });
+
+
+    });
+
+
+
+    describe('/scores/:level', () => {
+
+        describe('POST', () => {
+            it('should send a 201 status and the updated scores object', () => {
+
+                return request(app)
+                    .post("/scores/level1")
+                    .send({
+                        "newScore": {
+                            "user": "testUser",
+                            "score": 100000,
+                            "userId": "12345",
+                            "timestamp": "2023-01-09T19:00:02.854Z"
+                        },
+                    })
+                    .expect(201)
+                    .then(({
+                        body: {
+                            updatedScores
+                        }
+                    }) => {
+
+                        expect(updatedScores['level1']['1']).toMatchObject({
+                            "user": "testUser",
+                            "score": 100000,
+                            "userId": "12345",
+                            "timestamp": "2023-01-09T19:00:02.854Z"
+                        })
+                    })
+
+            });
+
+            it('should send a 404 status when provided with an incorrect level name', () => {
+
+                return request(app)
+                    .post("/scores/wrong")
+                    .send({
+                        "newScore": {
+                            "user": "testUser",
+                            "score": 100000,
+                            "userId": "12345",
+                            "timestamp": "2023-01-09T19:00:02.854Z"
+                        },
+                    })
+                    .expect(404)
+                    .then(({
+                        body: {
+                            message
+                        }
+                    }) => {
+
+                        expect(message).toBe('Level Not Found')
+                    })
+
+            });
+
+
+            it('should send a 400 status when incorrect score properties are provided', () => {
+
+                return request(app)
+                    .post("/scores/level1")
+                    .send({
+                        "newScore": {
+                            "user": "testUser",
+                            "userId": "12345",
+                            "timestamp": "2023-01-09T19:00:02.854Z"
+                        },
+                    })
+                    .expect(400)
+                    .then(({
+                        body: {
+                            message
+                        }
+                    }) => {
+
+                        expect(message).toBe('Invalid Input')
+                    })
+
+            });
+
+            describe('GET/PATCH/DELETE', () => {
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .get(`/scores/level1`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
+
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+
+                });
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .patch(`/scores/level1`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
+
+                            expect(message).toEqual("Method Not Allowed")
+                        });
+
+
+                });
+
+                it('should return method not allowed', () => {
+
+                    return request(app)
+                        .delete(`/scores/level1`)
+                        .expect(405)
+                        .then(({
+                            body: {
+                                message
+                            }
+                        }) => {
                             expect(message).toEqual("Method Not Allowed")
                         });
 
