@@ -4,11 +4,11 @@
  */
 const testScoreObject = {}
 const testUsers = [
-    { score: 70000, user: 'highScorer', id: '1' },
-    { score: 60000, user: 'almostThere', id: '2' },
-    { score: 50000, user: 'averageJoe', id: '3' },
-    { score: 40000, user: 'underPerformer', id: '4' },
-    { score: 30000, user: 'leftBehind', id: '5' }
+    { score: 70000, user: 'highScorer', userId: '1', timestamp: "2023-01-09T19:00:02.854Z" },
+    { score: 60000, user: 'almostThere', userId: '2', timestamp: "2023-01-09T19:00:02.854Z" },
+    { score: 50000, user: 'averageJoe', userId: '3', timestamp: "2023-01-09T19:00:02.854Z" },
+    { score: 40000, user: 'underPerformer', userId: '4', timestamp: "2023-01-09T19:00:02.854Z" },
+    { score: 30000, user: 'leftBehind', userId: '5', timestamp: "2023-01-09T19:00:02.854Z" }
 ]
 for (let i = 0; i < 5; i++) {
     levelScores = {}

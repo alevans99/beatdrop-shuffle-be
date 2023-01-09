@@ -18,12 +18,10 @@ const seedDb = async () => {
     if (exisitingDoc) {
         await scoresCollection.deleteOne({ _id: exisitingDoc._id })
     }
-
     await scoresCollection.insertOne(testScoreObject)
 
     await client.close()
 }
 
-
-
+seedDb()
 module.exports = { seedDb }

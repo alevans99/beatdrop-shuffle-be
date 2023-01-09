@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "start-test": "SET NODE_ENV=test&& node app.js",
+    "start": "node server.js",
+    "start-test": "SET NODE_ENV=test&& node server.js",
     "seed-test-db-windows": "SET NODE_ENV=test&& node db/seedDb.js",
     "seed-test-db": "NODE_ENV=test&& node db/seedDb.js",
     "seed-prod-db-windows": "SET NODE_ENV=production&& node db/seedDb.js",
