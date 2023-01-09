@@ -13,18 +13,18 @@ exports.findScores = async () => {
 /**
  * Adds the new high score to the level selected.
  * @param level - The level to update
- * @param score - The new score to add
+ * @param newScore - The new score to add
  * @returns The main score object for the game
  */
 exports.addNewScore = async (newScore, level) => {
-    //Get the existing scores object from the DB
 
+    //Check for input validity
     const acceptedLevels = ['level1', 'level2', 'level3', 'level4', 'level5']
     if (!acceptedLevels.includes(level)) {
         return Promise.reject({ status: 404, message: 'Level Not Found' })
 
     }
-    console.log(newScore)
+
     if (Object.keys(newScore).length !== 4 || !Object.keys(newScore).every((key) => {
         return ['score', 'user', 'userId', 'timestamp'].includes(key)
     })) {
@@ -32,6 +32,7 @@ exports.addNewScore = async (newScore, level) => {
 
     }
 
+    //Get existing scores and update
     const db = getDb()
     const existingScores = await db.collection('scores').findOne({})
     const scoresArray = []
@@ -42,7 +43,6 @@ exports.addNewScore = async (newScore, level) => {
     scoresArray.sort((a, b) => {
         return b.score - a.score
     })
-    //Remove lowest score
     scoresArray.pop()
 
     const newLevelObject = {}
@@ -50,6 +50,7 @@ exports.addNewScore = async (newScore, level) => {
         newLevelObject[i + 1] = scoreObject
     })
 
+    //Update and return with new score object
     const { value: updatedScores } = await db.collection('scores').findOneAndUpdate({ _id: existingScores._id }, { $set: { [level]: newLevelObject } }, { returnDocument: 'after' })
     return updatedScores
 }
